@@ -247,24 +247,36 @@ html,body{
 
 @media(max-width:768px){
   .side-left{width:60px;left:5px}
-  .hightech-symbol{width:50px;height:160px;opacity:0.6}
+  .hightech-symbol{width:50px;height:160px;opacity:0.5}
   .side-right{width:90px;right:0}
   .side-right svg{width:90px;height:130px}
   .center-content{padding:30px 16px 50px}
   .profile-name{font-size:28px}
 }
 
+/* Mobile: decoracoes ficam como overlay semitransparente atras do conteudo */
 @media(max-width:480px){
-  .side-left,.side-right{display:none}
   .center-content{padding:28px 16px 40px;max-width:100%}
   #intro-logo{width:80px;height:80px}
   #intro-text{font-size:34px;letter-spacing:6px}
-  .profile-pic{width:74px;height:74px}
-  .profile-name{font-size:24px;letter-spacing:2px}
-  .profile-subtitle{font-size:13px;letter-spacing:2px}
+  .profile-pic{width:80px}
+  .profile-name{font-size:22px;letter-spacing:2px}
+  .profile-subtitle{font-size:12px;letter-spacing:2px}
   .cards-container{gap:12px}
   .card-placeholder{font-size:13px;gap:10px}
   .card-placeholder i{font-size:20px}
+
+  .side-left{
+    width:52px;left:0;top:0;bottom:0;z-index:2;
+    opacity:1;align-items:center;padding-top:0;justify-content:center;
+  }
+  .hightech-symbol{width:44px;height:200px;opacity:0.18;}
+
+  .side-right{
+    width:60px;right:0;top:0;bottom:0;z-index:2;
+    align-items:center;justify-content:center;
+  }
+  .side-right svg{width:58px;height:84px;opacity:0.22;}
 }
 </style>
 </head>
@@ -413,7 +425,7 @@ html,body{
 
       <!-- ENGRENAGEM GRANDE (topo) — centro em 100,100 -->
       <g>
-        <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="18s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 100 58" to="360 100 58" dur="18s" repeatCount="indefinite"/>
         <!-- Dentes da engrenagem (12 dentes) -->
         <path d="
           M100 18 L105 18 L108 28 L112 29.5 L116 31.5 L120 34
@@ -443,7 +455,7 @@ html,body{
 
       <!-- ENGRENAGEM MENOR (embaixo, encaixada) — centro em 135,168 -->
       <g>
-        <animateTransform attributeName="transform" type="rotate" from="0 135 168" to="-360 135 168" dur="12s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" type="rotate" from="0 135 163" to="-360 135 163" dur="12s" repeatCount="indefinite"/>
         <!-- Dentes (10 dentes) -->
         <path d="
           M135 132 L139 132 L141 139 L144 140 L147 142 L150 144.5
