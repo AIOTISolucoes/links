@@ -156,11 +156,11 @@ html,body{
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
 .profile-pic{
-  width:88px;height:88px;border-radius:50%;
-  object-fit:contain;background:#111;
-  border:2px solid rgba(74,222,80,0.25);
-  box-shadow:0 0 25px rgba(74,222,80,0.1);
-  margin-bottom:16px;padding:6px;
+  width:120px;height:auto;border-radius:0;
+  object-fit:contain;background:transparent;
+  border:none;
+  box-shadow:none;
+  margin-bottom:16px;padding:0;
 }
 
 .profile-name{
@@ -203,20 +203,26 @@ html,body{
 
 .card-img-wrapper{
   width:100%;
-  aspect-ratio:16/5;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  display:block;
   background:rgba(255,255,255,0.02);
+  line-height:0;
 }
 
 .card-img-wrapper img{
-  width:100%;height:100%;object-fit:cover;display:block;
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+.card-img-wrapper .card-placeholder{
+  display:flex;
+  padding:24px 20px;
 }
 
 .card-placeholder{
+  width:100%;
   display:flex;align-items:center;gap:14px;
+  padding:26px 20px;
   color:rgba(255,255,255,0.25);
   font-family:'Rajdhani',sans-serif;
   font-weight:700;font-size:16px;letter-spacing:2px;
