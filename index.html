@@ -160,7 +160,7 @@ html,body{
   object-fit:contain;background:transparent;
   border:none;
   box-shadow:none;
-  margin-bottom:16px;padding:0;
+  margin-bottom:6px;padding:0;
 }
 
 .profile-name{
@@ -289,7 +289,15 @@ html,body{
 <!-- ====== INTRO ====== -->
 <div id="intro">
   <img id="intro-logo" src="logo-aioti.png" alt="AIOTI Logo">
-  <div id="intro-text"></div>
+  <div id="intro-row" style="display:flex;align-items:center;justify-content:center;gap:10px;min-height:60px;">
+    <div id="intro-text"></div>
+    <span id="intro-badge" style="opacity:0;transition:opacity 0.5s ease;flex-shrink:0;display:inline-flex;align-items:center;">
+      <svg width="30" height="30" viewBox="0 0 22 22" fill="none">
+        <path d="M20.396 11c0-.795-.197-1.578-.586-2.274a4.56 4.56 0 00-1.588-1.736 3.648 3.648 0 00-.752-3.082 3.648 3.648 0 00-2.907-1.378 4.584 4.584 0 00-3.563-2.48 4.584 4.584 0 00-3.563 2.48 3.648 3.648 0 00-2.907 1.378A3.648 3.648 0 003.778 6.99 4.56 4.56 0 001.604 11a4.56 4.56 0 002.174 4.01 3.648 3.648 0 00.752 3.082 3.648 3.648 0 002.907 1.378 4.584 4.584 0 003.563 2.48 4.584 4.584 0 003.563-2.48 3.648 3.648 0 002.907-1.378 3.648 3.648 0 00.752-3.082A4.56 4.56 0 0020.396 11z" fill="#1D9BF0"/>
+        <path d="M9.662 14.85l-3.429-3.428 1.293-1.293 2.136 2.136 4.559-4.559L15.514 9l-5.852 5.85z" fill="#fff"/>
+      </svg>
+    </span>
+  </div>
 </div>
 
 <!-- ====== SITE PRINCIPAL ====== -->
@@ -367,15 +375,7 @@ html,body{
 
     <div class="profile-section">
       <img class="profile-pic" src="logo-aioti.png" alt="AIOTI">
-      <div class="profile-name">
-        AIOTI
-        <span class="verified-badge">
-          <svg viewBox="0 0 22 22" fill="none">
-            <path d="M20.396 11c0-.795-.197-1.578-.586-2.274a4.56 4.56 0 00-1.588-1.736 3.648 3.648 0 00-.752-3.082 3.648 3.648 0 00-2.907-1.378 4.584 4.584 0 00-3.563-2.48 4.584 4.584 0 00-3.563 2.48 3.648 3.648 0 00-2.907 1.378A3.648 3.648 0 003.778 6.99 4.56 4.56 0 001.604 11a4.56 4.56 0 002.174 4.01 3.648 3.648 0 00.752 3.082 3.648 3.648 0 002.907 1.378 4.584 4.584 0 003.563 2.48 4.584 4.584 0 003.563-2.48 3.648 3.648 0 002.907-1.378 3.648 3.648 0 00.752-3.082A4.56 4.56 0 0020.396 11z" fill="#1D9BF0"/>
-            <path d="M9.662 14.85l-3.429-3.428 1.293-1.293 2.136 2.136 4.559-4.559L15.514 9l-5.852 5.85z" fill="#fff"/>
-          </svg>
-        </span>
-      </div>
+
       <div class="profile-subtitle">Automação & Soluções Industriais</div>
     </div>
 
@@ -406,7 +406,7 @@ html,body{
         </div>
       </a>
 
-      <a class="card-link" id="card4" href="https://www.instagram.com/aioti_ce" target="_blank" rel="noopener noreferrer">
+      <a class="card-link" id="card4" href="https://www.instagram.com/aioti_ce/" target="_blank" rel="noopener noreferrer">
         <div class="card-img-wrapper">
           <img src="imagem4.png" alt="Instagram"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -518,6 +518,7 @@ setTimeout(()=>{
       clearInterval(timer);
       setTimeout(()=>{
         introText.classList.add('glow');
+        document.getElementById('intro-badge').style.opacity='1';
         setTimeout(()=>{
           introDiv.classList.add('fadeout');
           setTimeout(()=>{
