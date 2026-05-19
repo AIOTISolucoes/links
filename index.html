@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIOTI - Soluções Industriais</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --green:#4ADE50;
+  --green-bright:#00ff88;
+  --green-dark:#2d8a31;
+  --dark:#080c08;
+  --card-border:rgba(74,222,80,0.12);
+  --text-dim:rgba(255,255,255,0.45);
+}
+
+html,body{
+  font-family:'Rajdhani',sans-serif;
+  background:var(--dark);
+  color:#fff;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ====== BACKGROUND ====== */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+}
+.bg-grid::before{
+  content:'';position:absolute;inset:-50%;
+  background:
+    linear-gradient(rgba(74,222,80,0.02) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(74,222,80,0.02) 1px,transparent 1px);
+  background-size:50px 50px;
+  animation:gridMove 25s linear infinite;
+}
+.bg-grid::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 40%,rgba(74,222,80,0.05) 0%,transparent 60%);
+}
+@keyframes gridMove{0%{transform:translate(0,0)}100%{transform:translate(50px,50px)}}
+
+.particle{
+  position:fixed;width:2px;height:2px;background:var(--green);border-radius:50%;
+  opacity:0;pointer-events:none;z-index:1;animation:floatP 10s infinite;
+}
+@keyframes floatP{0%{opacity:0;transform:translateY(100vh)}10%{opacity:0.35}90%{opacity:0.35}100%{opacity:0;transform:translateY(-10vh)}}
+
+/* ====== INTRO ====== */
+#intro{
+  position:fixed;inset:0;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;background:var(--dark);
+  z-index:2000;transition:opacity 1.2s ease;
+}
+#intro.fadeout{opacity:0;pointer-events:none}
+
+#intro-logo{
+  width:110px;height:110px;object-fit:contain;
+  opacity:0;transform:scale(0.8);
+  transition:opacity 1.5s ease,transform 1.5s ease;
+}
+#intro-logo.visible{opacity:1;transform:scale(1)}
+
+#intro-text{
+  margin-top:20px;
+  font-family:'Rajdhani',sans-serif;
+  font-weight:700;
+  font-size:48px;
+  letter-spacing:10px;
+  color:#fff;
+  min-height:60px;
+}
+
+#intro-text.glow{
+  color:var(--green);
+  text-shadow:0 0 10px var(--green),0 0 30px rgba(74,222,80,0.4);
+  transition:color 0.8s ease,text-shadow 0.8s ease;
+}
+
+/* ====== SITE PRINCIPAL ====== */
+#site{
+  display:none;
+  position:relative;
+  z-index:10;
+  min-height:100vh;
+}
+
+/* === LEFT SIDE — HIGHTECH SYMBOL === */
+.side-left{
+  position:fixed;
+  left:20px;top:0;bottom:0;
+  width:140px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  z-index:5;
+}
+
+.hightech-symbol{
+  width:120px;
+  height:280px;
+}
+
+/* Draw animation */
+.draw-line{
+  fill:none;
+  stroke:var(--green);
+  stroke-width:1.2;
+  opacity:0.3;
+  stroke-dasharray:var(--len);
+  stroke-dashoffset:var(--len);
+  animation:drawIn var(--dur) var(--delay) ease forwards,pulseGlow 4s var(--pulse-delay) infinite;
+}
+
+@keyframes drawIn{to{stroke-dashoffset:0}}
+@keyframes pulseGlow{0%,100%{opacity:0.3}50%{opacity:0.6}}
+
+.travel-dot{fill:var(--green);opacity:0;animation:dotFadeIn 0.5s 4s forwards}
+@keyframes dotFadeIn{to{opacity:0.7}}
+
+/* === RIGHT SIDE — GEARS === */
+.side-right{
+  position:fixed;
+  right:10px;top:0;bottom:0;
+  width:220px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  z-index:5;
+}
+
+/* === CENTER CONTENT === */
+.center-content{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 20px 60px;
+  max-width:480px;
+  margin:0 auto;
+  text-align:center;
+}
+
+/* ====== PROFILE ====== */
+.profile-section{
+  margin-bottom:28px;
+  opacity:0;animation:fadeUp 0.8s 0.2s forwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+.profile-pic{
+  width:88px;height:88px;border-radius:50%;
+  object-fit:contain;background:#111;
+  border:2px solid rgba(74,222,80,0.25);
+  box-shadow:0 0 25px rgba(74,222,80,0.1);
+  margin-bottom:16px;padding:6px;
+}
+
+.profile-name{
+  font-family:'Rajdhani',sans-serif;
+  font-size:32px;font-weight:700;
+  letter-spacing:4px;color:#fff;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+
+.verified-badge{width:22px;height:22px;flex-shrink:0;display:inline-flex}
+.verified-badge svg{width:22px;height:22px}
+
+.profile-subtitle{
+  color:var(--text-dim);font-size:15px;margin-top:6px;
+  letter-spacing:3px;text-transform:uppercase;font-weight:600;
+}
+
+/* ====== CARDS — SQUARE IMAGE BUTTONS ====== */
+.cards-container{
+  display:flex;flex-direction:column;gap:14px;
+  margin-top:32px;width:100%;
+}
+
+.card-link{
+  display:block;
+  border-radius:14px;
+  overflow:hidden;
+  text-decoration:none;
+  transition:all 0.35s ease;
+  opacity:0;transform:translateY(15px);
+  border:1px solid var(--card-border);
+  background:rgba(74,222,80,0.03);
+}
+
+.card-link:hover{
+  border-color:rgba(74,222,80,0.35);
+  transform:translateY(-3px);
+  box-shadow:0 10px 35px rgba(74,222,80,0.1);
+}
+
+.card-img-wrapper{
+  width:100%;
+  aspect-ratio:16/5;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(255,255,255,0.02);
+}
+
+.card-img-wrapper img{
+  width:100%;height:100%;object-fit:cover;display:block;
+}
+
+.card-placeholder{
+  display:flex;align-items:center;gap:14px;
+  color:rgba(255,255,255,0.25);
+  font-family:'Rajdhani',sans-serif;
+  font-weight:700;font-size:16px;letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.card-placeholder i{font-size:24px;color:var(--green);opacity:0.35}
+
+/* ====== FOOTER ====== */
+.footer{
+  margin-top:40px;padding:20px 0;
+  font-size:11px;color:rgba(255,255,255,0.1);letter-spacing:2px;
+}
+
+/* ====== RESPONSIVO ====== */
+@media(max-width:1024px){
+  .side-left{width:100px;left:10px}
+  .hightech-symbol{width:80px;height:200px}
+  .side-right{width:160px;right:5px}
+  .side-right svg{width:160px;height:220px}
+}
+
+@media(max-width:768px){
+  .side-left{width:60px;left:5px}
+  .hightech-symbol{width:50px;height:160px;opacity:0.6}
+  .side-right{width:90px;right:0}
+  .side-right svg{width:90px;height:130px}
+  .center-content{padding:30px 16px 50px}
+  .profile-name{font-size:28px}
+}
+
+@media(max-width:480px){
+  .side-left,.side-right{display:none}
+  .center-content{padding:28px 16px 40px;max-width:100%}
+  #intro-logo{width:80px;height:80px}
+  #intro-text{font-size:34px;letter-spacing:6px}
+  .profile-pic{width:74px;height:74px}
+  .profile-name{font-size:24px;letter-spacing:2px}
+  .profile-subtitle{font-size:13px;letter-spacing:2px}
+  .cards-container{gap:12px}
+  .card-placeholder{font-size:13px;gap:10px}
+  .card-placeholder i{font-size:20px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg-grid"></div>
+<div id="particles"></div>
+
+<!-- ====== INTRO ====== -->
+<div id="intro">
+  <img id="intro-logo" src="logo-aioti.png" alt="AIOTI Logo">
+  <div id="intro-text"></div>
+</div>
+
+<!-- ====== SITE PRINCIPAL ====== -->
+<div id="site">
+
+  <!-- LEFT: Hightech circuit symbol (self-drawing animation) -->
+  <div class="side-left">
+    <svg class="hightech-symbol" viewBox="0 0 100 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Main vertical backbone -->
+      <line class="draw-line" x1="50" y1="10" x2="50" y2="250"
+        style="--len:240;--dur:2.5s;--delay:0.5s;--pulse-delay:5s"/>
+
+      <!-- Top right branch -->
+      <line class="draw-line" x1="50" y1="30" x2="82" y2="30"
+        style="--len:32;--dur:0.5s;--delay:1.2s;--pulse-delay:5.2s"/>
+      <circle class="draw-line" cx="82" cy="30" r="4"
+        style="--len:25;--dur:0.4s;--delay:1.7s;--pulse-delay:5.5s"/>
+      <line class="draw-line" x1="82" y1="34" x2="82" y2="52"
+        style="--len:18;--dur:0.3s;--delay:2.1s;--pulse-delay:5.7s"/>
+      <rect class="draw-line" x="74" y="52" width="16" height="10" rx="2"
+        style="--len:52;--dur:0.5s;--delay:2.4s;--pulse-delay:6s"/>
+
+      <!-- Left branch -->
+      <line class="draw-line" x1="50" y1="72" x2="18" y2="72"
+        style="--len:32;--dur:0.5s;--delay:1.5s;--pulse-delay:5.3s"/>
+      <line class="draw-line" x1="18" y1="72" x2="18" y2="102"
+        style="--len:30;--dur:0.4s;--delay:2s;--pulse-delay:5.6s"/>
+      <circle class="draw-line" cx="18" cy="102" r="5"
+        style="--len:31;--dur:0.4s;--delay:2.4s;--pulse-delay:6s"/>
+      <circle cx="18" cy="102" r="2" fill="var(--green)" opacity="0"
+        style="animation:dotFadeIn 0.3s 2.8s forwards"/>
+
+      <!-- Center hexagon -->
+      <polyline class="draw-line" points="36,118 50,108 64,118 64,138 50,148 36,138 36,118"
+        style="--len:100;--dur:1.2s;--delay:2.2s;--pulse-delay:5.8s" stroke-width="1.4"/>
+      <circle cx="50" cy="128" r="3" fill="var(--green)" opacity="0"
+        style="animation:dotFadeIn 0.3s 3.4s forwards"/>
+
+      <!-- Right mid branch -->
+      <line class="draw-line" x1="64" y1="128" x2="90" y2="128"
+        style="--len:26;--dur:0.4s;--delay:3s;--pulse-delay:6.2s"/>
+      <line class="draw-line" x1="90" y1="118" x2="90" y2="138"
+        style="--len:20;--dur:0.3s;--delay:3.4s;--pulse-delay:6.4s"/>
+
+      <!-- Lower left -->
+      <line class="draw-line" x1="50" y1="165" x2="24" y2="165"
+        style="--len:26;--dur:0.4s;--delay:2.8s;--pulse-delay:6s"/>
+      <line class="draw-line" x1="24" y1="165" x2="24" y2="190"
+        style="--len:25;--dur:0.3s;--delay:3.2s;--pulse-delay:6.3s"/>
+      <rect class="draw-line" x="16" y="190" width="16" height="8" rx="1"
+        style="--len:48;--dur:0.4s;--delay:3.5s;--pulse-delay:6.5s"/>
+
+      <!-- Lower right -->
+      <line class="draw-line" x1="50" y1="205" x2="78" y2="205"
+        style="--len:28;--dur:0.4s;--delay:3.2s;--pulse-delay:6.4s"/>
+      <circle class="draw-line" cx="78" cy="205" r="4"
+        style="--len:25;--dur:0.4s;--delay:3.6s;--pulse-delay:6.6s"/>
+
+      <!-- Bottom -->
+      <line class="draw-line" x1="38" y1="235" x2="62" y2="235"
+        style="--len:24;--dur:0.3s;--delay:3.5s;--pulse-delay:6.5s"/>
+      <circle class="draw-line" cx="50" cy="248" r="3"
+        style="--len:19;--dur:0.3s;--delay:3.8s;--pulse-delay:6.7s"/>
+
+      <!-- Traveling dot -->
+      <circle class="travel-dot" r="2.5">
+        <animateMotion dur="7s" repeatCount="indefinite"
+          path="M50,10 L50,30 L82,30 L82,52 L82,30 L50,30 L50,72 L18,72 L18,102 L18,72 L50,72 L50,128 L64,128 L90,128 L64,128 L50,148 L50,165 L24,165 L24,190 L24,165 L50,165 L50,205 L78,205 L50,205 L50,250"/>
+      </circle>
+    </svg>
+  </div>
+
+  <!-- CENTER CONTENT -->
+  <div class="center-content">
+
+    <div class="profile-section">
+      <img class="profile-pic" src="logo-aioti.png" alt="AIOTI">
+      <div class="profile-name">
+        AIOTI
+        <span class="verified-badge">
+          <svg viewBox="0 0 22 22" fill="none">
+            <path d="M20.396 11c0-.795-.197-1.578-.586-2.274a4.56 4.56 0 00-1.588-1.736 3.648 3.648 0 00-.752-3.082 3.648 3.648 0 00-2.907-1.378 4.584 4.584 0 00-3.563-2.48 4.584 4.584 0 00-3.563 2.48 3.648 3.648 0 00-2.907 1.378A3.648 3.648 0 003.778 6.99 4.56 4.56 0 001.604 11a4.56 4.56 0 002.174 4.01 3.648 3.648 0 00.752 3.082 3.648 3.648 0 002.907 1.378 4.584 4.584 0 003.563 2.48 4.584 4.584 0 003.563-2.48 3.648 3.648 0 002.907-1.378 3.648 3.648 0 00.752-3.082A4.56 4.56 0 0020.396 11z" fill="#1D9BF0"/>
+            <path d="M9.662 14.85l-3.429-3.428 1.293-1.293 2.136 2.136 4.559-4.559L15.514 9l-5.852 5.85z" fill="#fff"/>
+          </svg>
+        </span>
+      </div>
+      <div class="profile-subtitle">Automação & Soluções Industriais</div>
+    </div>
+
+    <!-- Cards com imagens -->
+    <div class="cards-container">
+
+      <a class="card-link" id="card1" href="#" target="_blank">
+        <div class="card-img-wrapper">
+          <img src="imagem1.png" alt="Acesse o Site"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-placeholder" style="display:none"><i class="fas fa-globe"></i><span>Acesse o Site</span></div>
+        </div>
+      </a>
+
+      <a class="card-link" id="card2" href="#" target="_blank">
+        <div class="card-img-wrapper">
+          <img src="imagem2.png" alt="Entre em Contato"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-placeholder" style="display:none"><i class="fab fa-whatsapp"></i><span>Entre em Contato</span></div>
+        </div>
+      </a>
+
+      <a class="card-link" id="card3" href="#" target="_blank">
+        <div class="card-img-wrapper">
+          <img src="imagem3.png" alt="LinkedIn"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-placeholder" style="display:none"><i class="fab fa-linkedin-in"></i><span>LinkedIn</span></div>
+        </div>
+      </a>
+
+      <a class="card-link" id="card4" href="#" target="_blank">
+        <div class="card-img-wrapper">
+          <img src="imagem4.png" alt="Instagram"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="card-placeholder" style="display:none"><i class="fab fa-instagram"></i><span>Instagram</span></div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="footer">&copy; 2026 AIOTI</div>
+  </div>
+
+  <!-- RIGHT: Duas engrenagens grandes girando no próprio eixo -->
+  <div class="side-right">
+    <svg width="200" height="280" viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- ENGRENAGEM GRANDE (topo) — centro em 100,100 -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="18s" repeatCount="indefinite"/>
+        <!-- Dentes da engrenagem (12 dentes) -->
+        <path d="
+          M100 18 L105 18 L108 28 L112 29.5 L116 31.5 L120 34
+          L128 26 L134 32 L126 40 L128.5 44 L130.5 48 L131.5 52
+          L142 54 L142 62 L131.5 64 L130.5 68 L128.5 72 L126 76
+          L134 84 L128 90 L120 82 L116 84.5 L112 86.5 L108 88
+          L105 98 L95 98 L92 88 L88 86.5 L84 84.5 L80 82
+          L72 90 L66 84 L74 76 L71.5 72 L69.5 68 L68.5 64
+          L58 62 L58 54 L68.5 52 L69.5 48 L71.5 44 L74 40
+          L66 32 L72 26 L80 34 L84 31.5 L88 29.5 L92 28 L95 18 Z
+        " stroke="rgba(74,222,80,0.25)" stroke-width="1.8" fill="rgba(74,222,80,0.03)" stroke-linejoin="round"/>
+        <!-- Anel externo -->
+        <circle cx="100" cy="58" r="24" stroke="rgba(74,222,80,0.15)" stroke-width="1.5" fill="none"/>
+        <!-- Anel interno -->
+        <circle cx="100" cy="58" r="14" stroke="rgba(74,222,80,0.12)" stroke-width="1" fill="none"/>
+        <!-- Centro -->
+        <circle cx="100" cy="58" r="5" stroke="rgba(74,222,80,0.2)" stroke-width="1.5" fill="rgba(74,222,80,0.06)"/>
+        <circle cx="100" cy="58" r="2" fill="rgba(74,222,80,0.4)"/>
+        <!-- Raios -->
+        <line x1="100" y1="44" x2="100" y2="34" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="112" y1="52" x2="120" y2="46" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="112" y1="64" x2="120" y2="70" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="100" y1="72" x2="100" y2="82" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="88" y1="64" x2="80" y2="70" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="88" y1="52" x2="80" y2="46" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+      </g>
+
+      <!-- ENGRENAGEM MENOR (embaixo, encaixada) — centro em 135,168 -->
+      <g>
+        <animateTransform attributeName="transform" type="rotate" from="0 135 168" to="-360 135 168" dur="12s" repeatCount="indefinite"/>
+        <!-- Dentes (10 dentes) -->
+        <path d="
+          M135 132 L139 132 L141 139 L144 140 L147 142 L150 144.5
+          L156 139 L160 143 L155 149 L156.5 152 L158 155.5 L158.5 158
+          L166 160 L166 166 L158.5 168 L158 171 L156.5 174.5 L155 177.5
+          L160 183 L156 187 L150 182 L147 184.5 L144 186 L141 187
+          L139 194 L131 194 L129 187 L126 186 L123 184.5 L120 182
+          L114 187 L110 183 L115 177.5 L113.5 174.5 L112 171 L111.5 168
+          L104 166 L104 160 L111.5 158 L112 155.5 L113.5 152 L115 149
+          L110 143 L114 139 L120 144.5 L123 142 L126 140 L129 139 L131 132 Z
+        " stroke="rgba(74,222,80,0.3)" stroke-width="1.5" fill="rgba(74,222,80,0.04)" stroke-linejoin="round"/>
+        <!-- Anel -->
+        <circle cx="135" cy="163" r="16" stroke="rgba(74,222,80,0.18)" stroke-width="1.2" fill="none"/>
+        <circle cx="135" cy="163" r="9" stroke="rgba(74,222,80,0.1)" stroke-width="1" fill="none"/>
+        <!-- Centro -->
+        <circle cx="135" cy="163" r="4" stroke="rgba(74,222,80,0.2)" stroke-width="1.2" fill="rgba(74,222,80,0.06)"/>
+        <circle cx="135" cy="163" r="1.5" fill="rgba(74,222,80,0.45)"/>
+        <!-- Raios -->
+        <line x1="135" y1="154" x2="135" y2="147" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="143" y1="159" x2="148" y2="155" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="143" y1="167" x2="148" y2="171" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="135" y1="172" x2="135" y2="179" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="127" y1="167" x2="122" y2="171" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+        <line x1="127" y1="159" x2="122" y2="155" stroke="rgba(74,222,80,0.08)" stroke-width="1"/>
+      </g>
+
+      <!-- Labels -->
+      <text x="100" y="245" text-anchor="middle" fill="rgba(74,222,80,0.18)" font-family="Orbitron,sans-serif" font-size="9" letter-spacing="3" font-weight="700">SOLUÇÕES</text>
+      <text x="100" y="260" text-anchor="middle" fill="rgba(74,222,80,0.1)" font-family="Orbitron,sans-serif" font-size="7" letter-spacing="2">INDUSTRIAIS</text>
+    </svg>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  const c=document.getElementById('particles');
+  for(let i=0;i<12;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'vw';
+    p.style.animationDelay=Math.random()*10+'s';
+    p.style.animationDuration=(8+Math.random()*6)+'s';
+    c.appendChild(p);
+  }
+})();
+
+const introLogo=document.getElementById('intro-logo');
+const introText=document.getElementById('intro-text');
+const introDiv=document.getElementById('intro');
+const siteDiv=document.getElementById('site');
+
+setTimeout(()=>introLogo.classList.add('visible'),300);
+
+setTimeout(()=>{
+  const text="AIOTI";let i=0;
+  const timer=setInterval(()=>{
+    introText.textContent+=text[i++];
+    if(i>=text.length){
+      clearInterval(timer);
+      setTimeout(()=>{
+        introText.classList.add('glow');
+        setTimeout(()=>{
+          introDiv.classList.add('fadeout');
+          setTimeout(()=>{
+            introDiv.style.display='none';
+            siteDiv.style.display='block';
+            document.querySelectorAll('.card-link').forEach((c,idx)=>{
+              setTimeout(()=>{
+                c.style.transition='opacity 0.6s ease,transform 0.6s ease';
+                c.style.opacity='1';c.style.transform='translateY(0)';
+              },idx*150);
+            });
+          },1200);
+        },1000);
+      },400);
+    }
+  },180);
+},1800);
+</script>
+
+</body>
+</html>
